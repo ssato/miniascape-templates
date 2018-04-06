@@ -1,2 +1,0 @@
-for svc in sshd ntpd; do systemctl enable $svc; done;
-for svc in NetworkManager nfsd; do systemctl disable $svc; done

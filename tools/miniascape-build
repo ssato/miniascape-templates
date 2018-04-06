@@ -1,6 +1,0 @@
-#! /usr/bin/python
-#
-from miniascape.build import main
-from sys import argv
-
-main(argv)

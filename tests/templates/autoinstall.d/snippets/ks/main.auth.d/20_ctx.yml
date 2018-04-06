@@ -1,4 +1,0 @@
-kickstart:
-  auth:
-    - "--passalgo=sha512"
-    - "--enablecache"

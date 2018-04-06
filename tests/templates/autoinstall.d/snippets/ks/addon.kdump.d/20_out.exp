@@ -1,3 +1,0 @@
-%addon com_redhat_kdump --enable --reserve-mb='128M'
-
-%end

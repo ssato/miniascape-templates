@@ -1,5 +1,0 @@
-firewall:
-  rules:
-    - trust em1
-    - smtp
-    - port=1234:tcp

@@ -1,4 +1,0 @@
-packages:
-  installed:
-    - "@core"
-    - bash-completion

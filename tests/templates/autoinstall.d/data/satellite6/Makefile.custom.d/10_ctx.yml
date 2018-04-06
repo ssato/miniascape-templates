@@ -1,4 +1,0 @@
-proxy:
-  fqdn: proxy.example.com
-  port: 1234
-

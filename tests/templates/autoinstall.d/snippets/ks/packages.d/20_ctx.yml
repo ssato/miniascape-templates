@@ -1,8 +1,0 @@
-packages:
-  installed:
-    - "@core"
-    - bash-completion
-
-  uninstalled:
-    - rsh
-    - telnet-server

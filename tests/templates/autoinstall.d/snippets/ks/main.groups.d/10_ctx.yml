@@ -1,5 +1,0 @@
-kickstart:
-  groups:
-    - name: foo
-      gid: 1010
-    - name: bar

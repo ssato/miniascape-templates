@@ -1,2 +1,0 @@
-group --name=foo --gid=1010
-group --name=bar
