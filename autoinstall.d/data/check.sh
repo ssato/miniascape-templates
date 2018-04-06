@@ -17,7 +17,7 @@ which chronyc && \
 df -h
 mount -t ext3,ext4,xfs,nfs,vfat,cifs,iso9660 || mount
 cat /etc/fstab
-(pvscan; vgscan; lvscan) || :
+for x in pvscan vgscan lvscan; do which $x 2>/dev/null >/dev/null && $x || :; done
 free
 swapon --summary
 test -f /etc/kdump.conf && grep -Ev '^#' /etc/kdump.conf || :
