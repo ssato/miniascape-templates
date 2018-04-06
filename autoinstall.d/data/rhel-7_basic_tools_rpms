@@ -3,6 +3,7 @@ NetworkManager-config-server
 bash-completion
 bind-utils
 chrony
+efibootmgr
 elinks
 hardlink
 lftp
