@@ -14,16 +14,16 @@ source ${0%/*}/config.sh
 ISO_DIR=${1:-/root/setup/}
 
 MNT_DIR=/var/www/html
-RHEL_SUBDIR=pub/rhel-7.4/
+RHEL_SUBDIR=pub/rhel-7.5/
 RHUI_SUBDIR=pub/rhui-3.0/
 RHGS_SUBDIR=pub/rhgs-3.3/
 
 # RHEL
-f=/etc/yum.repos.d/rhel-7.4-iso.repo
+f=/etc/yum.repos.d/rhel-7.5-iso.repo
 test -f $f || \
-cat << EOF > /etc/yum.repos.d/rhel-7.4-iso.repo
-[rhel-7.4]
-name=RHEL 7.4
+cat << EOF > /etc/yum.repos.d/rhel-7.5-iso.repo
+[rhel-7.5]
+name=RHEL 7.5
 baseurl=http://${YUM_REPO_SERVER:?}/${RHEL_SUBDIR}/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 gpgcheck=1
