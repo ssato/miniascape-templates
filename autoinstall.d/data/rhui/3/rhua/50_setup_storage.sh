@@ -21,7 +21,7 @@ test "x${RHUI_STORAGE_TYPE:?}" = "xglusterfs" && (
 
 # Install Gluster RPMs, start glusterd and make bricks on CDS
 cmds="\
-yum install -y --enablerepo=rhgs-3.3 --disablerepo=rhel-7.4 glusterfs-{server,cli} rh-rhua-selinux-policy
+yum install -y --enablerepo=rhgs-3.3 --disablerepo=rhel-7.x glusterfs-{server,cli} rh-rhua-selinux-policy
 systemctl is-enabled glusterd 2>/dev/null || systemctl enable glusterd
 systemctl is-active glusterd 2>/dev/null || systemctl start glusterd
 systemctl status glusterd
