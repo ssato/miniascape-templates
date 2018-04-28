@@ -4,6 +4,10 @@ nfs-utils
 policycoreutils-python
 rpm-build
 nc
+# Install from RHEL 7.5+ ISO or yum repo instead of the one from RHGS to avoid
+# conflicts between them.
+attr
+lvm2
 # repoquery
 yum-utils
 # removes
