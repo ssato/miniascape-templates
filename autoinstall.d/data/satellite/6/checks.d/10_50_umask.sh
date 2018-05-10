@@ -1,9 +1,10 @@
 #! /bin/bash
 #
+# - Satellite 6.3 Installation Guide, 2.1. System Requirements:
+#   https://red.ht/2G1RfyB
+#
 set -ex
 
-# Satellite 6.3 Installation Guide, 2.1. System Requirements:
-# https://red.ht/2G1RfyB
 umask_exp="0022"
 
 [[ $(umask) = "${umask_exp}" ]] || {

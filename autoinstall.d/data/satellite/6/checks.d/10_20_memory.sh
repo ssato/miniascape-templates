@@ -1,14 +1,15 @@
 #! /bin/bash
 #
-# Check if the number of processors is much than required.
+# Check if the RAM (memory) and swap is enough for Satellite.
+#
+# - Satellite 6.3 Installation Guide, 2.1. System Requirements:
+#   https://red.ht/2G1RfyB
 #
 set -ex
 
 # _CHECK_MIN_RAM, _CHECK_MIN_SWAP
 source ${0%/*}/../config.sh 2>/dev/null || :
 
-# Satellite 6.3 Installation Guide, 2.1. System Requirements:
-# https://red.ht/2G1RfyB
 min_ram=${_CHECK_MIN_RAM:-20}   # [GiB]
 min_swap=${_CHECK_MIN_SWAP:-4}  # Do.
 

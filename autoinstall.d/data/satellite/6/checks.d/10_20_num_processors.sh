@@ -2,13 +2,14 @@
 #
 # Check if the number of processors is much than required.
 #
+# - Satellite 6.3 Installation Guide, 2.1. System Requirements:
+#   https://red.ht/2G1RfyB
+#
 set -ex
 
 # _CHECK_MIN_NPROC
 source ${0%/*}/../config.sh 2>/dev/null || :
 
-# Satellite 6.3 Installation Guide, 2.1. System Requirements:
-# https://red.ht/2G1RfyB
 min_nproc=${_CHECK_MIN_NPROC:-4}
 
 nproc=$(awk -F ': ' '/^processor/{ nproc = $2 }; END { print ++nproc }' < /proc/cpuinfo)
