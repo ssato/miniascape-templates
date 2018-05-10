@@ -45,4 +45,7 @@ which yum >/dev/null && timeout 10 yum repolist || (which dnf >/dev/null && time
 users="root {% for u in kickstart.users if kickstart and kickstart.users and u.name %}{{ u.name }} {% endfor %}"
 for u in ${users};do id ${u} || :; done
 test -d /root/setup && ls -lh /root/setup || :
+test -d /root/setup/checks.d && (
+for f in $(ls -1 /root/setup/checks.d/[0-9]*.sh); do chmod +x $f; $f; done
+)
 ) 2>&1 | tee ${logfile}
