@@ -38,6 +38,10 @@ svcs="{{ services.enabled|join(' ')|default('sshd') }}"
 test -d /etc/systemd && \
 (systemctl list-unit-files --state=enabled; systemctl --failed; for s in $svcs; do systemctl status $s; done) || \
 (/sbin/chkconfig --list; for s in $svcs; do service $s status; done)
+test -d /etc/yum.repos.d && (
+ls -1 /etc/yum.repos.d/*.repo 2>/dev/null || :
+which yum >/dev/null && timeout 10 yum repolist || (which dnf >/dev/null && timeout 10 dnf repolist || :)
+) || :
 users="root {% for u in kickstart.users if kickstart and kickstart.users and u.name %}{{ u.name }} {% endfor %}"
 for u in ${users};do id ${u} || :; done
 test -d /root/setup && ls -lh /root/setup || :
