@@ -8,7 +8,7 @@ set -ex
 umask_exp="0022"
 
 [[ $(umask) = "${umask_exp}" ]] || {
-  echo "Error: umask must be ${umask_exp} but was $(umask)"
+  echo "Error: umask must be ${umask_exp} but was $(umask)" >&2
   exit 1
 }
 

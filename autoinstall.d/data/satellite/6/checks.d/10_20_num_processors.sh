@@ -14,7 +14,7 @@ min_nproc=${_CHECK_MIN_NPROC:-4}
 
 nproc=$(awk -F ': ' '/^processor/{ nproc = $2 }; END { print ++nproc }' < /proc/cpuinfo)
 (( ${nproc} >= ${min_nproc} )) || {
-  echo 'Error: number of processors detected is fewer than required!'
+  echo 'Error: number of processors detected is fewer than required!' >&2
   exit 1
 }
 

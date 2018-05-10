@@ -17,7 +17,7 @@ test -f /etc/redhat-release
 
 rhel_release=$(cat /etc/redhat-release)
 [[ ${rhel_release} =~ 'Red Hat Enterprise Linux Server release '${rhel_min_ver:?}\.[${rhel_min_rel:?}-9] ]] || {
-  echo ${rhel_release}
+  echo ${rhel_release} >&2
   exit 1
 }
 [[ $(uname -p) = ${arch} ]] || {

@@ -6,7 +6,7 @@
 set -ex
 
 [[ $(id -u) = 0 ]] || {
-  echo 'Error: You must be root to install and setup Satellite!'
+  echo 'Error: You must be root to install and setup Satellite!' >&2
   exit 1
 }
 

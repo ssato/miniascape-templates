@@ -10,7 +10,7 @@ source ${0%/*}/../config.sh 2>/dev/null || :
 
 hostname=${_CHECK_FQDN:-$(hostname -f)}
 [[ ${hostname} =~ [a-z0-9.-]+ ]] || {
-  echo "Error: Hostname should contain lower-case letters, numbers, dots (.) and hyphens (-) only"
+  echo "Error: Hostname should contain lower-case letters, numbers, dots (.) and hyphens (-) only" >&2
   exit 1
 }
 
