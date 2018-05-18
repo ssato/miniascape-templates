@@ -97,6 +97,7 @@ RHUI_REPO_IDS="
 "
 
 # Name of RPMs and certs are same.
+# format: <client_rpm_name == client_cert_name> <client_rpm_repo_0> [<client_rpm_repo_1> ...] 
 RHUI_CLIENT_CERTS="
 {%- for crpm in rhui.client_rpms -%}
 {{      crpm.name }} {{ crpm.repos|join(',') }}
@@ -105,9 +106,8 @@ RHUI_CLIENT_CERTS="
 
 # format: <client_rpm_name> <client_rpm_repo_0> [<client_rpm_repo_1> ...] 
 RHUI_CLIENT_RPMS="
-{%- for crpm in rhui.client_rpms if crpm.name is defined and crpm.name and
-                                    crpm.repos is defined and crpm.repos -%}
-{{      crpm.name }} {{ crpm.repos|join(' ') }}
+{%- for crpm in rhui.client_rpms if crpm.name is defined and crpm.name -%}
+{{      crpm.name }} {{ crpm.version|default('1.0') }}
 {% endfor -%}
 "
 
