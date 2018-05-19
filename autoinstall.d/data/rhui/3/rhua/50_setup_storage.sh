@@ -20,31 +20,18 @@ test "x${RHUI_STORAGE_TYPE:?}" = "xglusterfs" && (
 ## *** Gluster Storage ***
 
 # Install Gluster RPMs, start glusterd and make bricks on CDS
-cmds="\
-yum install -y --enablerepo=rhgs-3.3 --disablerepo=rhel-7.x glusterfs-{server,cli} rh-rhua-selinux-policy
-systemctl is-enabled glusterd 2>/dev/null || systemctl enable glusterd
-systemctl is-active glusterd 2>/dev/null || systemctl start glusterd
-systemctl status glusterd
-mkdir -v -p ${BRICK:?}
-${GLUSTER_ADD_FIREWALL_RULES}
-"
 for cds in ${CDS_SERVERS:?}; do
-    cat << EOC | _ssh_exec_script $cds
-${cmds:?}
-EOC
+    _ssh_exec ${cds} "yum install -y --enablerepo=rhgs-3.3 --disablerepo=rhel-7.x glusterfs-{server,cli} rh-rhua-selinux-policy"
+    _ssh_exec ${cds} "systemctl is-enabled glusterd 2>/dev/null || systemctl enable glusterd"
+    _ssh_exec ${cds} "systemctl is-active glusterd 2>/dev/null || systemctl start glusterd"
+    _ssh_exec ${cds} "systemctl status glusterd"
+    _ssh_exec ${cds} "mkdir -v -p ${BRICK:?}"
+    _ssh_exec ${cds} "${GLUSTER_ADD_FIREWALL_RULES}"
 done
 
 # Probe Gluster peers on the primary CDS
-cmds="\
-sleep 5
-for peer in "${CDS_REST:?}"; do gluster peer probe \${peer}; done
-sleep 5
-gluster peer status
-sleep 5
-"
-cat << EOC | _ssh_exec_script ${CDS_0:?}
-${cmds:?}
-EOC
+_ssh_exec ${CDS_0:?} "sleep 5; for peer in ${CDS_REST:?}; do gluster peer probe \${peer}; done"
+_ssh_exec ${CDS_0:?} "sleep 5; gluster peer status; sleep 5"
 
 # Create and start Gluster Storage Volumes
 cmds="\
@@ -55,9 +42,7 @@ gluster volume start rhui_content_0 && \
 gluster volume status
 )
 "
-cat << EOC | _ssh_exec_script ${CDS_0:?}
-${cmds:?}
-EOC
+_ssh_exec ${CDS_0:?} "${cmds}"
 
 # Configure Gluster Storage Volume Quorum
 # "In a three-way replication setup, it is recommended to set
