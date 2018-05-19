@@ -52,4 +52,7 @@ EOC
 # Check
 find ${RHUI_CLIENT_WORKDIR}/ -type f
 
+rpms=$(find ${RHUI_CLIENT_WORKDIR}/ -type f | grep -E '.rpm$')
+for rpm in ${rpms}; do echo "# ${rpm##*/}"; rpm -qpl ${rpm}; rpm --qp --scripts ${rpm}; rpm -Kv ${rpm}; done
+
 # vim:sw=4:ts=4:et:
