@@ -29,7 +29,7 @@ done
 for f in $(ls -1 /etc/sysctl.d/*.conf 2>/dev/null); do
     echo "# ${f}:"; cat $f
 done
-sysctl -a > ${logdir}/sysctl-a.txt
+sysctl -a > ${logdir}/sysctl-a.txt 2>/dev/null
 for f in $(ls -1 /etc/sudoers.d/* 2>/dev/null); do
     echo "# ${f}:"; cat $f
 done
