@@ -14,7 +14,7 @@ rubygem-psych
 rubygem-rdoc
 rubygems
 # Required during running rhui-installer
-#glusterfs-fuse  # Required but only available from RHGS iso or repo.
+glusterfs-fuse
 httpd
 nfs-utils
 pciutils
