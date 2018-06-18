@@ -1,0 +1,12 @@
+{# vim:sw=2:ts=2:et:ft=sh:
+ #}
+# Generate network static routes configuration files under
+# /etc/sysconfig/network-scripts/route-* for RHEL 7+ hosts.
+#
+confdir=/etc/sysconfig/network-scripts
+{%  for ni in interfaces if ni.route -%}
+f=/etc/sysconfig/network-scripts/route-{{ ni.device }}
+cat << EOF > $f
+{{ ni.route }}
+EOF
+{% endfor %}
