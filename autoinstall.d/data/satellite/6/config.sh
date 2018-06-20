@@ -180,6 +180,23 @@ hammer activation-key content-override --name '{{ ak.name }}' --content-label '{
 {% endfor -%}
 "
 
+{% if satellite.content_iso -%}
+CONTENT_ISO_REPOS_TOPDIR={{ satellite.content_iso.topdir|default('/var/lib/pulp/content_isos') }}
+CONTENT_ISO_REPOS_CONF="/etc/pulp/content/sources/conf.d/local.conf"
+CONTENT_ISO_REPOS_CONF_CONTENT="
+{% if satellite.content_iso.repos is defined and satellite.content_iso.repos -%}
+{%     for repo in satellite.content_iso.repos if repo.id and repo.relpath -%}
+[{{ repo.id }}]
+name={{ repo.id }}
+baseurl=file://${CONTENT_ISO_REPOS_TOPDIR}/{{ repo.relpath }}
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+gpgcheck=1
+enabled=$(test -f ${CONTENT_ISO_REPOS_TOPDIR}/{{ repo.relpath }}/repodata/repomd.xml && echo 1 || echo 0)
+{%     endfor %}
+{% endif %}
+"
+{% endif %}
+
 PRODUCTS_TO_SYNC="
 {% for p in satellite.products if p.name and p.sync is defined and p.sync -%}
 {{     p.name }}
