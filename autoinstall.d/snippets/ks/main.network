@@ -1,3 +1,7 @@
+{% if kickstart.pre_snippets|default(false) and
+      kickstart.include_network|default(false) -%}
+%include /tmp/network-ks.cfg
+{% else -%}
 {% for ni in interfaces if ni.device -%}
 network --device={{ ni.device }}
 {{-    " --onboot=%s" % ni.onboot|default('yes') -}}
@@ -23,4 +27,4 @@ network --device={{ ni.device }}
 {# {%- if virtinst and virtinst.os_variant == 'rhel7' and fqdn -%}
 {{     'network --hostname=%s' % fqdn -}}
 {%  endif %} #}
-{# #}
+{% endif %}
