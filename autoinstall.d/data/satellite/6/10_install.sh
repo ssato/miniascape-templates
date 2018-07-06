@@ -83,6 +83,7 @@ yum install --disablerepo='*' --enablerepo=rhel-7.x --enablerepo=rhs-3.x --enabl
 f=${LOGDIR}/satellite-installer.stamp
 test -f ${f} || (
 test -d ${LOGDIR:?} || mkdir -p ${LOGDIR}
+satellite-installer --help
 satellite-installer --scenario satellite \
   ${SATELLITE_INSTALLER_OPTIONS:?} | \
 		tee 2>&1 ${LOGDIR}/satellite-installer.$(date +%F_%T).log && touch $f
