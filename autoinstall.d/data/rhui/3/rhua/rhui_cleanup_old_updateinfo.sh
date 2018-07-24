@@ -8,27 +8,26 @@
 set -e
 
 REPOS_TOPDIR=/var/lib/rhui/remote_share/published/yum/master/yum_distributor/
-KEEP=1  # How much number of recent updateinfo.xml.gz are kept.
-DRYRUN=${_DRYRUN:-no}
+KEEP=1  # How many recent updateinfo.xml.gz are kept.
+DO_REMOVE=no
 
 function show_help () {
     cat << EOH
 Usage: $0 [Options...]
 Options:
-    -d            Dry run mode, that is, old updateinfo.xml.gz files are
-                  printed and will not be removed.
-    -k KEEP_NUM   Number of recent updateinfo.xml.gz files to keep.
-                  KEEP_NUM must be greater than 1. [${KEEP}]
+    -k KEEP_NUM   Number of recent updateinfo.xml.gz files to keep,
+                  must be greater than 1. [${KEEP}]
+    -r            Remove older updateinfo.xml.gz files instead of print them.
     -h            Show this help.
 EOH
 }
 
-while getopts dk:h OPT
+while getopts k:rh OPT
 do
     case "${OPT}" in
-        d) DRYRUN=yes
-           ;;
         k) KEEP=${OPTARG}
+           ;;
+        r) DO_REMOVE=yes
            ;;
         h) show_help; exit 0
            ;;
@@ -40,7 +39,10 @@ shift $((OPTIND - 1))
 
 for repodata_dir in ${REPOS_TOPDIR:?}/*/*/repodata/; do
     removes=$(ls -1t ${repodata_dir}/*-updateinfo.xml.gz | sed "${KEEP:?}d")
-    [[ ${DRYRUN:?} = "yes" ]] && echo "${removes}" || rm -f ${removes}
+    [[ ${DO_REMOVE:?} = "yes" ]] && rm -f ${removes} || {
+        _removes=$(echo ${removes} | sed -nr '/[[:blank:]]+/d')
+        [[ -n ${_removes} ]] && echo ${_removes} || :
+    }
 done
 
 # vim:sw=4:ts=4:et:
