@@ -31,7 +31,7 @@ do
            ;;
         h) show_help; exit 0
            ;;
-        \?) echo "Invalid option!" > /dev/stderr; exit 1
+        \?) echo "Invalid option!"; exit 1
            ;;
     esac
 done
