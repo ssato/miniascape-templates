@@ -15,8 +15,6 @@ function show_help () {
     cat << EOH
 Usage: $0 [Options...]
 Options:
-    -k KEEP_NUM   Number of recent updateinfo.xml.gz files to keep,
-                  must be greater than 1. [${KEEP}]
     -r            Remove older updateinfo.xml.gz files instead of print them.
     -h            Show this help.
 EOH
@@ -25,8 +23,6 @@ EOH
 while getopts k:rh OPT
 do
     case "${OPT}" in
-        k) KEEP=${OPTARG}
-           ;;
         r) DO_REMOVE=yes
            ;;
         h) show_help; exit 0
@@ -38,10 +34,14 @@ done
 shift $((OPTIND - 1))
 
 for repodata_dir in ${REPOS_TOPDIR:?}/*/*/repodata/; do
-    removes=$(ls -1t ${repodata_dir}/*-updateinfo.xml.gz | sed "${KEEP:?}d")
+    repomdxml=${repodata_dir}/repomd.xml
+    test -f ${repomdxml} || continue
+
+    latest=$(sed -nr 's,.* href="repodata/(.+-updateinfo.xml.gz)" .*,\1,p' ${repomdxml})
+    removes=$(ls -1 ${repodata_dir}/*-updateinfo.xml.gz | grep -vE ".*/${latest:?}")
+
     [[ ${DO_REMOVE:?} = "yes" ]] && rm -f ${removes} || {
-        _removes=$(echo ${removes} | sed -nr '/[[:blank:]]+/d')
-        [[ -n ${_removes} ]] && echo ${_removes} || :
+        for r in ${removes}; do [[ -n ${r} ]] && echo $r || :; done
     }
 done
 
