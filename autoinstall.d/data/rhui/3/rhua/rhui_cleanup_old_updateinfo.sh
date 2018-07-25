@@ -40,6 +40,7 @@ for repodata_dir in ${REPOS_TOPDIR:?}/*/*/repodata/; do
     latest=$(sed -nr 's,.* href="repodata/(.+-updateinfo.xml.gz)" .*,\1,p' ${repomdxml})
     removes=$(ls -1 ${repodata_dir}/*-updateinfo.xml.gz | grep -vE ".*/${latest:?}")
 
+    [[ -n "${removes}" ]] || continue
     [[ ${DO_REMOVE:?} = "yes" ]] && rm -f ${removes} || {
         for r in ${removes}; do [[ -n ${r} ]] && echo $r || :; done
     }
