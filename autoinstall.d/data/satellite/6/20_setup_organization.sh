@@ -10,9 +10,6 @@ set -ex
 # WORKDIR, ORG_NAME, ORG_LABEL
 source ${0%/*}/config.sh
 
-# Setup Hammer user config if not yet.
-source ${WORKDIR}/setup_hammer_user_conf.sh
-
 # Create Organization if not found.
 hammer --csv organization list | grep -qE ",${ORG_LABEL}," 2>/dev/null || \
 hammer organization create --name="${ORG_NAME}" --label="${ORG_LABEL}"
