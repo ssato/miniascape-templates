@@ -25,7 +25,14 @@ EOF
 )
 
 test -d .gnupg/ || (
-(find / -xdev -type f -exec sha256sum {} >/dev/null \; 2>&1) &
+(
+# to increase entropy on VMs.
+rpm -q rng-tools || yum install -y rng-tools
+sed -r 's!ExecStart=.*!& -r /dev/urandom!' /usr/lib/systemd/system/rngd.service > /etc/systemd/system/rngd.service
+systemctl restart rngd
+cat /proc/sys/kernel/random/entropy_avail
+#
+find / -xdev -type f -exec sha256sum {} >/dev/null \; 2>&1) &
 export ENTROPY_GEN_PROCESS=$!
 gpg -v --batch --gen-key ${custom_gpg_conf} && kill ${ENTROPY_GEN_PROCESS}
 )
