@@ -55,6 +55,8 @@ gnupg2
 subscription-manager
 # repoquery
 yum-utils
+# To increase entropy on VMs
+rng-tools
 #
 # Excluded as installed when resolving dependencies:
 #
