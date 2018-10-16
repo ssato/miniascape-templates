@@ -14,4 +14,7 @@ hostname=${_CHECK_FQDN:-$(hostname -f)}
   exit 1
 }
 
+[[ ${hostname} =~ .+[.].+ ]] || {
+  echo "Error: FQDN is not set (no domain componet is foun in 'hostname -f' output" >&2
+}
 # vim:sw=2:ts=2:et:
