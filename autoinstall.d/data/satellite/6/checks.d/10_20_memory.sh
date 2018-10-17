@@ -19,12 +19,12 @@ test -n "${ram_size}"
 test -n "${swap_size}"
 
 (( ${ram_size} >= ${min_ram} * 1024 * 1024 )) || {
-  echo 'Error: RAM is not enough: ${ram_size} [KiB] < ${min_ram} [GiB]) !' >&2 
+  echo "Error: RAM is not enough: ${ram_size} [KiB] < ${min_ram} [GiB]) !" >&2
   exit 1
 }
 
 (( ${swap_size} >= ${min_swap} * 1024 * 1024 )) || {
-  echo 'Error: Swap is not enough: ${swap_size} [KiB] < ${min_swap} [GiB]) !' >&2
+  echo "Error: Swap is not enough: ${swap_size} [KiB] < ${min_swap} [GiB]) !" >&2
   exit 1
 }
 
