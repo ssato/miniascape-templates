@@ -80,7 +80,7 @@ SATELLITE_INSTALLER_OPTIONS="
 "
 
 ORG_NAME="{{ satellite.organization|default('Default Organization') }}"
-ORG_LABEL="${ORG_NAME/ /_}"
+ORG_LABEL="${ORG_NAME// /_}"
 LOC_NAME="Default Location"
 
 ORG_ID_FILE=${HOME}/.hammer/organization_id.txt
