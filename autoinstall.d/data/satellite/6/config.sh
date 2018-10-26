@@ -167,13 +167,16 @@ hammer activation-key add-host-collection --name '{{ ak.name }}' --host-collecti
 ADD_SUBSCRIPTION_TO_ACTIVATION_KEYS='
 {% for ak in satellite.activation_keys if ak.name and
                                           (ak.subscription is defined and ak.subscription) or
-                                          (ak.subscriptions is defined and ak.subscriptions) -%}
+                                          (ak.subscriptions is defined and ak.subscriptions) or
+                                          (ak.subscription_contract is defined and ak.subscription_contract) -%}
 {%     if ak.subscriptions -%}
 {%         for sub in ak.subscriptions -%}
 sub_id=$(hammer --csv subscription list | sed -nr "s/.+,([^,]+),{{ sub }},.*/\\1/p"); hammer activation-key add-subscription --name "{{ ak.name }}" --subscription-id ${sub_id} --quantity {{ ak.quantity|default("1") }}
 {%         endfor -%}
-{%     else -%}
+{%     elif ak.subscription -%}
 sub_id=$(hammer --csv subscription list | sed -nr "s/.+,([^,]+),{{ ak.subscription }},.*/\\1/p"); hammer activation-key add-subscription --name "{{ ak.name }}" --subscription-id ${sub_id} --quantity {{ ak.quantity|default("1") }}
+{%     else -%}
+sub_id=$(hammer --csv subscription list | sed -nr "s/^[^,]+,([^,]+),.+,{{ ak.subscription_contract }},.*/\\1/p"); hammer activation-key add-subscription --name "{{ ak.name }}" --subscription-id ${sub_id} --quantity {{ ak.quantity|default("1") }}
 {%     endif -%}
 {% endfor -%}
 '
