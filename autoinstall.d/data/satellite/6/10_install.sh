@@ -57,7 +57,7 @@ mount -o ro,loop ${RHEL_ISO:?} ${MNT_DIR}/${RHEL_SUBDIR}
 f=/etc/yum.repos.d/rhs-6.x-iso.repo
 test -f $f || \
 cat << EOF > /etc/yum.repos.d/rhs-6.x-iso.repo
-[rhs-3.x]
+[rhsat-6.x]
 name=RH Satellite 6.x
 baseurl=${BASE_URL_PREFIX:?}/${SATELLITE_SUBDIR}/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
@@ -76,7 +76,7 @@ mkdir -p ${MNT_DIR}/${SATELLITE_SUBDIR}
 mount -o ro,loop ${SATELLITE_ISO:?} ${MNT_DIR}/${SATELLITE_SUBDIR}
 )
 
-yum install --disablerepo='*' --enablerepo=rhel-7.x --enablerepo=rhs-3.x --enablerepo=rhscl -y satellite
+yum install --disablerepo='*' --enablerepo=rhel-7.x --enablerepo=rhsat-6.x --enablerepo=rhscl -y satellite
 )
 )
 
