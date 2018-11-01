@@ -70,13 +70,20 @@ baseurl=${BASE_URL_PREFIX:?}/${SATELLITE_SUBDIR}/RHSCL/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 gpgcheck=1
 enabled=1
+
+[rhsat-maint]
+name=Red Hat Satellite Maintenance 6 for Red Hat Enterprise Linux 7
+baseurl=${BASE_URL_PREFIX:?}/${SATELLITE_SUBDIR}/sat-maintenance/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+gpgcheck=1
+enabled=1
 EOF
 test -d ${MNT_DIR}/${SATELLITE_SUBDIR}/Packages || (
 mkdir -p ${MNT_DIR}/${SATELLITE_SUBDIR}
 mount -o ro,loop ${SATELLITE_ISO:?} ${MNT_DIR}/${SATELLITE_SUBDIR}
 )
 
-yum install --disablerepo='*' --enablerepo=rhel-7.x --enablerepo=rhsat-6.x --enablerepo=rhscl -y satellite
+yum install --disablerepo='*' --enablerepo=rhel-7.x --enablerepo=rhsat-6.x --enablerepo=rhscl --enablerepo=rhsat-maint -y satellite
 )
 )
 
