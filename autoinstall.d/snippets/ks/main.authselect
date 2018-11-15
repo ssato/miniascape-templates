@@ -1,0 +1,6 @@
+# .. seealso:: autohselect-migration(7)
+{%  if kickstart and kickstart.authselect and kickstart.authselect.options -%}
+authselect select sssd {{ kickstart.authselect.options|join(' ') }}
+{%  else -%}
+authselect select sssd
+{% endif -%}
