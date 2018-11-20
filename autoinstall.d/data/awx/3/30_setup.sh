@@ -76,4 +76,9 @@ verify_ssl = false
 EOF
 }
 
+# ssh key and localhost management:
+test -f /root/.ssh/id_rsa || ssh-keygen -f /root/.ssh/id_rsa -N ''
+ssh-copy-id root@localhost
+tower-cli credential create --name Tower_Host_root_Cred_0 --organization Default --kind ssh --ssh-key-data /root/.ssh/id_rsa
+
 # vim:sw=4:ts=4:et:
