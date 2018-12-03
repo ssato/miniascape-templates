@@ -75,10 +75,17 @@ password = ${PASSWORD}
 verify_ssl = false
 EOF
 }
+tower-cli login admin --password ${PASSWORD}
 
 # ssh key and localhost management:
 test -f /root/.ssh/id_rsa || ssh-keygen -f /root/.ssh/id_rsa -N ''
-ssh-copy-id root@localhost
-tower-cli credential create --name Tower_Host_root_Cred_0 --organization Default --kind ssh --ssh-key-data /root/.ssh/id_rsa
+ssh-copy-id root@localhost -f
+cat << EOF > tower_host_root_cred.json
+{
+    "username": "root",
+    "ssh_key_data": "$(cat .ssh/id_rsa)"
+}
+EOF
+tower-cli credential create --name Tower_Host_root_Cred_0 --organization Default --credential-type Machine --inputs=@tower_host_root_cred.json
 
 # vim:sw=4:ts=4:et:
