@@ -16,7 +16,7 @@ ISO_DIR=${1:-/root/setup/}
 MNT_DIR=/var/www/html
 RHEL_SUBDIR=pub/rhel-7.x/
 RHUI_SUBDIR=pub/rhui-3.0/
-RHGS_SUBDIR=pub/rhgs-3.3/
+RHGS_SUBDIR=pub/rhgs-3.x/
 
 # RHEL
 f=/etc/yum.repos.d/rhel-7.x-iso.repo
@@ -73,10 +73,10 @@ EOC
 
 # RHGS
 if test "x${RHUI_STORAGE_TYPE:?}" = "xglusterfs"; then
-    f=/etc/yum.repos.d/rhgs-3.3-iso.repo
+    f=/etc/yum.repos.d/rhgs-3.x-iso.repo
     test -f $f || \
-    cat << EOF > /etc/yum.repos.d/rhgs-3.3-iso.repo
-[rhgs-3.3]
+    cat << EOF > /etc/yum.repos.d/rhgs-3.x-iso.repo
+[rhgs-3.x]
 name=RH Gluset Storage 3.3
 baseurl=http://${YUM_REPO_SERVER}/${RHGS_SUBDIR}/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
@@ -112,6 +112,6 @@ EOC
 
 # Check
 yum repolist
-test "x${RHUI_STORAGE_TYPE:?}" = "xglusterfs" && yum repolist --enablerepo rhgs-3.3 || :
+test "x${RHUI_STORAGE_TYPE:?}" = "xglusterfs" && yum repolist --enablerepo rhgs-3.x || :
 
 # vim:sw=4:ts=4:et:
