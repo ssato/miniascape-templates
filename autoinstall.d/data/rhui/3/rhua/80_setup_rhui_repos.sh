@@ -51,6 +51,6 @@ time rhui-manager ${RHUI_AUTH_OPT} repo add_by_repo --repo_ids "$(echo ${repos} 
 rhui-manager ${RHUI_AUTH_OPT} repo list
 rhui-manager status
 rhui-manager cert info
-rct cat-cert /etc/pki/rhui/redhat/${RHUI_CERT_NAME}
+rct cat-cert /etc/pki/rhui/redhat/*.pem
 
 # vim:sw=4:ts=4:et:
