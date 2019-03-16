@@ -28,17 +28,11 @@ while read line
 do
     test "x$line" = "x" && continue || :
     name=${line%% *}; repos=${line#* };
-    [[ "$can_build_cert_and_rpm_at_a_time" = "T" ]] && {
-        version=1.0;
-        rhui-manager ${RHUI_AUTH_OPT} client rpm \
-            --cert --rpm_name ${name:?} --rpm_version ${version:?} \
-            --repo_label ${repos:?} \
-            --days 3651 --dir ${RHUI_CLIENT_WORKDIR}/
-    } || {
-    rhui-manager ${RHUI_AUTH_OPT} client cert \
-        --name ${name:?} --repo_label ${repos:?} \
+    version=1.0;
+    rhui-manager ${RHUI_AUTH_OPT} client rpm \
+        --cert --rpm_name ${name:?} --rpm_version ${version:?} \
+        --repo_label ${repos:?} \
         --days 3651 --dir ${RHUI_CLIENT_WORKDIR}/
-    }
 done << EOC
 ${RHUI_CLIENT_CERTS:?}
 EOC
