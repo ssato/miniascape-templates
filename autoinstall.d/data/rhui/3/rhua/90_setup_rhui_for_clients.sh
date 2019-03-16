@@ -23,8 +23,6 @@ test -f ~/.rpmmacros || bash -x ${0%/*}/gen_rpm_gpgkey.sh
 # List repos available to clients
 rhui-manager ${RHUI_AUTH_OPT} client labels
 
-can_build_cert_and_rpm_at_a_time=$(rhui-manager client rpm | grep '\-\-cert ' >/dev/null 2>/dev/null && echo T || echo F)
-
 mkdir -p ${RHUI_CLIENT_WORKDIR:?}
 while read line
 do
@@ -44,22 +42,6 @@ do
 done << EOC
 ${RHUI_CLIENT_CERTS:?}
 EOC
-
-[[ "$can_build_cert_and_rpm_at_a_time" = "T" ]] || {
-mkdir -p ${RHUI_CLIENT_RPMS_DIR}
-while read line
-do
-    test "x$line" = "x" && continue || :
-    name=${line%% *}; version=${line#* }
-    rhui-manager ${RHUI_AUTH_OPT} client rpm \
-        --rpm_name ${name:?} --rpm_version ${version:?} \
-        --entitlement_cert ${RHUI_CLIENT_WORKDIR}/${name}.crt \
-        --private_key ${RHUI_CLIENT_WORKDIR}/${name}.key \
-        --dir ${RHUI_CLIENT_RPMS_DIR}/
-done << EOC
-${RHUI_CLIENT_RPMS:?}
-EOC
-}
 
 # Check
 find ${RHUI_CLIENT_WORKDIR}/ -type f
