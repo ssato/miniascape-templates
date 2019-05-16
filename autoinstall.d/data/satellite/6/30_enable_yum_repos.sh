@@ -18,7 +18,7 @@ source ${0%/*}/config.sh
 curl --connect-timeout 10 --cacert /etc/rhsm/ca/redhat-uep.pem ${CURL_PROXY_OPT} https://cdn.redhat.com/
 
 # List products and repository-sets (all available repos) by products might be used.
-hammer --csv product list --by name
+hammer --csv product list
 while read line; do test "x$line" = "x" || (eval ${line} || :); done << EOC
 ${LIST_REPOSITORY_SET_BY_PRODUCTS}
 EOC

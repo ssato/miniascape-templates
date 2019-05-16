@@ -49,9 +49,9 @@ base64 -d ${MANIFEST_ZIP_BASE64:?} > ${MANIFEST_ZIP}
 hammer subscription upload --file ${MANIFEST_ZIP}
 
 # List products and repository-sets available from the manifest.
-hammer --csv product list --by name
-hammer --csv repository-set list --product "Red Hat Enterprise Linux Server" --by name
-hammer --csv repository-set list --product "Red Hat Software Collections for RHEL Server" --by name
+hammer --csv product list
+hammer --csv repository-set list --product "Red Hat Enterprise Linux Server"
+hammer --csv repository-set list --product "Red Hat Software Collections for RHEL Server"
 
 # vim:sw=2:ts=2:et:
 {#
