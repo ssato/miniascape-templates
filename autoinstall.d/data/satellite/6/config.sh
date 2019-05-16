@@ -117,7 +117,7 @@ PRODUCTS="
 
 LIST_REPOSITORY_SET_BY_PRODUCTS="
 {% for p in satellite.products if p.name -%}
-hammer --csv repository list --product '{{ p.name }}' --by name
+hammer --csv repository list --product '{{ p.name }}'
 {% endfor -%}
 "
 
