@@ -1,14 +1,39 @@
-mkdir -p /root/setup
+wdir=/root/setup
 f=/root/setup/enable_tmux_auto_log.sh
-test -f $f && \
-(cat << 'EOF' > $f
-if [[ $TERM = screen ]] || [[ $TERM = screen-256color ]] ; then
-  LOGDIR=$HOME/setup/tmux/logs
-  LOGFILE=$(hostname)_$(date +%Y-%m-%d_%H%M%S_%N.log)
-  [ ! -d $LOGDIR ] && mkdir -p $LOGDIR
-  tmux  set-option default-terminal "screen" \; \
-    pipe-pane        "cat >> $LOGDIR/$LOGFILE" \; \
-    display-message  "Started logging to $LOGDIR/$LOGFILE"
-fi
+test -f $f || \
+(
+cat << 'EOF' > $f
+#! /bin/bash
+set -ex
+
+_TMUX_CONF=$HOME/setup/tmux/conf
+[[ -f ${_TMUX_CONF:?} ]] || {
+[[ -d ${_TMUX_CONF%/*} ]] || mkdir -p ${_TMUX_CONF%/*}
+cat << EOC > ${_TMUX_CONF}
+unbind C-b
+set -g prefix C-j
+bind C-j send-prefix
+EOC
+(cd $HOME && ln -sf ${_TMUX_CONF} .tmux.conf)
+}
+
+[[ -n ${TMUX} ]] && [[ ${_TMUX_AUTO_LOG} =~ (1|true|yes) ]] && {
+    _TMUX_LOG_DIR=$HOME/setup/tmux/logs
+    [[ -d ${_TMUX_LOG_DIR:?} ]] || mkdir -p ${_TMUX_LOG_DIR}
+
+    echo "Start logging tmux session ..."
+    # date: %F = %+4Y-%m-%d
+    # tmux: #S = session_name, #I = window_index, #P = pane_index
+    # seealso: date(1), FORMATS section in tmux(1)
+    tmux pipe-pane "cat >> ${_TMUX_LOG_DIR}/$(date +%F)_s#S.w#I.p#P.log"
+}
 EOF
+grep -q -E '_TMUX_AUTO_LOG=' ~/.bashrc 2>/dev/null || {
+    cat << EOF >> ~/.bashrc
+
+# Tmux auto logging:
+export _TMUX_AUTO_LOG=yes
+[[ -f $f ]] && source $f
+EOF
+}
 )
