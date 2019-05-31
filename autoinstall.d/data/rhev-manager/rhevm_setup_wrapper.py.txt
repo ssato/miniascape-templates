@@ -1,4 +1,4 @@
-#! /usr/bin/python -tt
+#! /usr/bin/python3 -tt
 # Simple wrapper script to automate the interactive session of rhevm-dwh-setup
 # and rhevm-reports-setup.
 #
