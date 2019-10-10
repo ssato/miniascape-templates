@@ -61,6 +61,9 @@ USE_RPM_INSTALL_SCRIPT=no
 
 SATELLITE_INSTALLER_OPTIONS="
 {{- '--foreman-admin-email=%s' % satellite.admin.email|default('root@localhost') }} \
+{{  '--foreman-admin-username=%s' % satellite.admin.name if satellite.admin.name }} \
+{{  '--foreman-admin-first-name=%s' % satellite.admin.first_name if satellite.admin.first_name }} \
+{{  '--foreman-admin-last-name=%s' % satellite.admin.last_name if satellite.admin.last_name }} \
 {{  '--foreman-initial-organization=%s' % satellite.organization if satellite.organization }} \
 {{  '--foreman-initial-location=%s' % satellite.location if satellite.location }} \
 {% if satellite.tls is defined -%} \
