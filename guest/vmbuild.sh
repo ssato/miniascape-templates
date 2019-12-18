@@ -1,6 +1,6 @@
 #! /bin/bash
 # see also virt-install(1)
-function genmac () { python -c 'from random import randint as f; print ":".join("%02x" % x for x in (0x52, 0x54, 0x00, f(0x00, 0x7f), f(0x00, 0xff),  f(0x00, 0xff)))'; }
+function genmac () { python -c 'from random import randint as f; print (":".join("%02x" % x for x in (0x52, 0x54, 0x00, f(0x00, 0x7f), f(0x00, 0xff),  f(0x00, 0xff))))'; }
 {% macro net_option(nic) -%}
 {%     if nic.bridge is defined -%}
 bridge={{ nic.bridge }}
