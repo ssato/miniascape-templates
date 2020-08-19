@@ -73,13 +73,7 @@ SATELLITE_INSTALLER_OPTIONS="
 {{    '--certs-org=%s' % satellite.tls.org if satellite.tls.org }} \
 {{    '--certs-org-unit=%s' % satellite.tls.unit if satellite.tls.unit }} \
 {% endif -%} \
-{{ satellite.installer_extra_options|default('') }} \
-{% if proxy and proxy.fqdn -%} \
-{{     '--katello-proxy-url=http://%s' % proxy.fqdn }} \
---katello-proxy-port={{ proxy.port|default('8080') }} \
-{{     '--katello-proxy-username=%s' % proxy.user if proxy.user }} \
-{{     '--katello-proxy-password=%s' % proxy.password if proxy.password }} \
-{% endif -%}
+{{ satellite.installer_extra_options|default('') }}
 "
 
 ORG_NAME="{{ satellite.organization|default('Default Organization') }}"
@@ -92,6 +86,7 @@ test -f ${ORG_ID_FILE:?} && HAMMER_ORG_ID_OPT="--organization-id $(cat ${ORG_ID_
 
 CURL_PROXY_OPT=""
 {% if proxy and proxy.fqdn -%}
+PROXY_PORT={{ proxy.port|default('8080') }}
 PROXY_URL={{ "http://%s:%s" % (proxy.fqdn, proxy.port|default('8080')) }}
 CURL_PROXY_OPT="${CURL_PROXY_OPT} --proxy ${PROXY_URL} {{ ' --proxy-user %s:%s' % (proxy.user, proxy.password) if proxy.user and proxy.password }}"
 tweak_selinux_policy () {
