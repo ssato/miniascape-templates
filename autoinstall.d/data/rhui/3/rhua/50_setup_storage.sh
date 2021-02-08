@@ -62,8 +62,7 @@ done
 
 ## *** NFS ***
 cmds="
-rpm -q nfs-utils || yum install -y nfs-utils;
-setsebool -P httpd_use_nfs on
+rpm -q nfs-utils || yum install -y nfs-utils
 "
 
 eval ${cmds:?}
