@@ -15,7 +15,7 @@ ISO_DIR=${1:-/root/setup/}
 
 MNT_DIR=/var/www/html
 RHEL_SUBDIR=pub/rhel-7.x/
-RHUI_SUBDIR=pub/rhui-3.0/
+RHUI_SUBDIR=pub/rhui-3.x/
 RHGS_SUBDIR=pub/rhgs-3.x/
 
 # RHEL
@@ -44,11 +44,11 @@ mount -o ro,loop ${ISO_DIR}/${RHEL_ISO:?} ${MNT_DIR}/${RHEL_SUBDIR} || \
 EOC
 
 # RHUI
-f=/etc/yum.repos.d/rhui-3.0-iso.repo
+f=/etc/yum.repos.d/rhui-3.x-iso.repo
 test -f $f || \
-cat << EOF > /etc/yum.repos.d/rhui-3.0-iso.repo
-[rhui-3.0]
-name=RHUI 3.0
+cat << EOF > /etc/yum.repos.d/rhui-3.x-iso.repo
+[rhui-3.x]
+name=RHUI 3.x
 baseurl=http://${YUM_REPO_SERVER}/${RHUI_SUBDIR}/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 gpgcheck=1
