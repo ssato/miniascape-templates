@@ -1,4 +1,4 @@
-@Core
+@^minimal-environment
 NetworkManager-config-server
 bash-completion
 bind-utils
@@ -10,7 +10,6 @@ lftp
 make
 nfs-utils
 nmap-ncat
-pcp
 psmisc
 rsync
 sos
